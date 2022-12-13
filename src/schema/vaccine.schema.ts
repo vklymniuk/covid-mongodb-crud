@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { configs } from "../../config/configuration";
 
-@Schema({ collection: 'vaccine' })
+@Schema({ collection: configs.covid.mongoCollectionName })
 export class Vaccine extends Document {
 
     @Prop({ unique: true })

@@ -1,0 +1,9 @@
+{
+  "lastRun": "SeedVaccinesSampleDocumentsUploader.ts",
+  "migrations": [
+    {
+      "title": "1670869317367-create-collection.ts",
+      "timestamp": 1670885856787
+    }
+  ]
+}
