@@ -1,46 +1,171 @@
-import { createReadStream, createWriteStream } from 'fs';
-import { Inject, Injectable } from '@nestjs/common';
+import { createReadStream } from 'fs';
+import { parse } from 'csv-parse';
+import { Injectable } from '@nestjs/common';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
-import { parse } from 'csv-parse';
+import { VaccineRepository } from '../schema/vaccine-repository';
+import { CSVHeaderDto } from '../dto/CSVRow.dto';
+import { Vaccine } from '../schema/vaccine.schema';
 
 @Injectable()
 export class SeedVaccinesSampleDocumentsUploader {
+  constructor(
+    @InjectMapper() private readonly mapper: Mapper,
+    private readonly repository: VaccineRepository,
+  ) {}
 
-    async execute() {
-        const streamRead = createReadStream(
-            "/Users/vova/WorkApplications/03_covid/covid-mongodb-crud/src/data/origindata.csv",
-            { encoding: "utf-8" }
-        );
+  async execute() {
+    console.log(1);
+    const processFile = async () => {
+      const records = [];
+      const parser = createReadStream('../data/origindata.csv', {
+        encoding: 'utf-8',
+      }).pipe(parse({ delimiter: ',', from_line: 2 }));
 
-        streamRead.pipe(parse({ delimiter: ",", from_line: 2 } ));
+      for await (const row of parser) {
+        const tmpRow: CSVHeaderDto = new CSVHeaderDto(row);
+        const doc: Vaccine = new Vaccine(tmpRow);
 
-        streamRead.on("end", function () {
-            console.log('completed');
-            streamRead.close();
+        records.push(doc);
+      }
 
-        })
-        .on("error", function (error) {
-            console.log('error-fail');
-            console.error(error);
-            console.log(error.message);
-            streamRead.close();
-        });
+      return records;
+    };
 
-        return streamRead.on("data", function (row) {
-                console.log('---');
-                console.log(row);
-                console.log('---');
-        });
-//
-    }
+    const t = await processFile();
+    console.log(t);
+    process.exit(1);
+    // Algorithm
+    // read row
+    // map row
+    // store in database if not exists (upsert?)
+    // next
 
-    getName(): string {
-        return 'SeedVaccinesSampleDocumentsUploader';
-    }
+    // this.repository.save();
+
+    //
+    // const proccessFile = async () => {
+    //     const records = [];
+    //     const parser = createReadStream(
+    //         "/Users/vova/WorkApplications/03_covid/covid-mongodb-crud/src/data/origindata.csv",
+    //         { encoding: "utf-8" }
+    //     ).pipe(parse({ delimiter: ",", from_line: 2 } ));
+    //
+    //     for await (const record of parser) {
+    //         records.push(record);
+    //     }
+    //
+    //     return records;
+    // }
+    //
+    // try {
+    //     const res = await proccessFile();
+    //     console.log(res.pop());
+    //
+    //     return;
+    // } catch (err) {
+    //     console.log(1);
+    // }
+
+    // createReadStream(
+    //     "/Users/vova/WorkApplications/03_covid/covid-mongodb-crud/src/data/origindata.csv",
+    //     { encoding: "utf-8" }
+    //     )
+    //     .pipe(parse({
+    //         delimiter: ",",
+    //         from_line: 2,
+    //         columns: true,
+    //         // columns: [
+    //         //     "YearWeekISO", "ReportingCountry", "Denominator",
+    //         //     "NumberDosesReceived", "NumberDosesExported", "FirstDose",
+    //         //     "FirstDoseRefused", "SecondDose", "DoseAdditional1",
+    //         //     "DoseAdditional2", "DoseAdditional3", "UnknownDose",
+    //         //     "Region", "TargetGroup", "Vaccine", "Population"
+    //         // ],
+    //         encoding: "utf-8",
+    //         trim: true,
+    //     }))
+    //     .on("end", function () {
+    //         console.log('completed');
+    //         // streamRead.close();
+    //     })
+    //     .on("error", function (error) {
+    //         console.log('error-fail');
+    //         console.error(error);
+    //         console.log(error.message);
+    //         // streamRead.close();
+    //     })
+    //     .on("data", function (row) {
+    //         console.log('---');
+    //         console.log(row);
+    //         console.log('---');
+    //         // streamRead.resume();
+    //     })
+    // ;
+
+    // const proccessFile = async () => {
+    //     const records = [];
+    //     const parser = createReadStream(
+    //         "/Users/vova/WorkApplications/03_covid/covid-mongodb-crud/src/data/origindata.csv",
+    //         { encoding: "utf-8" }
+    //     ).pipe(parse({ delimiter: ",", from_line: 2 } ));
+    //
+    //     for await (const record of parser) {
+    //         records.push(record);
+    //     }
+    //
+    //     return records;
+    // }
+    //
+    // try {
+    //     const res = await proccessFile();
+    //     console.log(res.pop());
+    //
+    //     return;
+    // } catch (err) {
+    //     console.log(1);
+    // }
+
+    // const records = [];
+    // const parser = createReadStream(
+    //     "/Users/vova/WorkApplications/03_covid/covid-mongodb-crud/src/data/origindata.csv",
+    //     { encoding: "utf-8" }
+    //     )
+    //     .pipe(parse({ delimiter: ",", from_line: 2 } ))
+    // ;
+    //
+    // for await (const record of parser) {
+    //     // console.log(record);
+    //     records.push(record);
+    // }
+    //
+    // console.log(records[0], records[1]);
+    // // streamRead.on("end", function () {
+    // //     console.log('completed');
+    // //     streamRead.close();
+    // //
+    // // })
+    // // .on("error", function (error) {
+    // //     console.log('error-fail');
+    // //     console.error(error);
+    // //     console.log(error.message);
+    // //     streamRead.close();
+    // // });
+    // //
+    // // return streamRead.on("data", function (row) {
+    // //         console.log('---');
+    // //         console.log(row);
+    // //         console.log('---');
+    // // });
+
+    return;
+  }
+
+  getName(): string {
+    return 'SeedVaccinesSampleDocumentsUploader';
+  }
 }
-//
-//
+
 // //
 // // export const up = async () => {
 // //

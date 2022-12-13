@@ -1,37 +1,40 @@
-import { Command, CommandRunner, Option } from 'nest-commander';
-import {SeedVaccinesSampleDocumentsUploader} from "../services/SeedVaccinesSampleDocumentsUploader";
+import { Command, CommandRunner } from 'nest-commander';
+import { SeedVaccinesSampleDocumentsUploader } from '../services/SeedVaccinesSampleDocumentsUploader';
 
 interface BasicCommandOptions {
-    string?: string;
-    boolean?: boolean;
-    number?: number;
+  string?: string;
+  boolean?: boolean;
+  number?: number;
 }
 
 @Command({
-    name: 'seed-vaccines-sample-documents',
-    description: 'Upload required dataset inside the mongodb.',
-    arguments: '',
-    options: {}
+  name: 'seed-vaccines-sample-documents',
+  description: 'Upload required dataset inside the mongodb.',
+  arguments: '',
+  options: {},
 })
 export class SeedVaccinesSampleDocumentsCommand extends CommandRunner {
-    constructor(private readonly vaccineService: SeedVaccinesSampleDocumentsUploader) {
-        super();
-    }
+  constructor(
+    private readonly vaccineService: SeedVaccinesSampleDocumentsUploader,
+  ) {
+    super();
+  }
 
-    async run(
-        passedParams: string[],
-        options?: BasicCommandOptions
-    ): Promise<void> {
-        console.log('SeedVaccinesSampleDocumentsCommand executed');
-
-        try {
-            const res = await this.vaccineService.execute();
-            console.log(res);
-        } catch (err) {
-            console.log(err);
-        }
-
-
-        return;
-    }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async run(
+    passedParams: string[],
+    options?: BasicCommandOptions,
+  ): Promise<void> {
+    console.log(1);
+    //
+    // try {
+    //     console.log('SeedVaccinesSampleDocumentsCommand executed');
+    //     await this.vaccineService.execute();
+    //     console.log(2);
+    //
+    //     return;
+    // } catch (err) {
+    //     console.log(1);
+    // }
+  }
 }
