@@ -17,24 +17,24 @@ export class SeedVaccinesSampleDocumentsCommand extends CommandRunner {
   constructor(
     private readonly vaccineService: SeedVaccinesSampleDocumentsUploader,
   ) {
+
+    console.log(222);
     super();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async run(
-    passedParams: string[],
-    options?: BasicCommandOptions,
-  ): Promise<void> {
-    console.log(1);
-    //
-    // try {
-    //     console.log('SeedVaccinesSampleDocumentsCommand executed');
+  async run(passedParams: string[], options?: BasicCommandOptions): Promise<void>
+  {
+    try {
+        console.log('SeedVaccinesSampleDocumentsCommand executed');
     //     await this.vaccineService.execute();
-    //     console.log(2);
-    //
-    //     return;
-    // } catch (err) {
-    //     console.log(1);
-    // }
+        console.log(22);
+
+        return;
+    } catch (err) {
+        console.log(1);
+    }
+
+    return;
   }
 }
