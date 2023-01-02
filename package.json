@@ -4,7 +4,7 @@
   "description": "Nestjs REST skeleton template.",
   "author": "Volodymyr Klymniuk",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -24,7 +24,7 @@
     "migrate:init": "migrate --migrations-dir=\"./src/migrations\" --compiler=\"ts:./src/migrations-utils/ts-compiler.js\"  init",
     "migrate:up": "migrate --migrations-dir=\"./src/migrations\" --compiler=\"ts:./src/migrations-utils/ts-compiler.js\"  up",
     "migrate:down": "migrate --migrations-dir=\"./src/migrations\" --compiler=\"ts:./src/migrations-utils/ts-compiler.js\" down",
-    "seed-vaccines-sample-documents": "TS_NODE_PROJECT=./tsconfig.json ts-node -r tsconfig-paths/register src/seed-run.ts seed-vaccines-sample-documents"
+    "seed:database": "./node_modules/.bin/ts-node -r tsconfig-paths/register src/seed-run.ts seed-vaccines"
   },
   "dependencies": {
     "@automapper/classes": "^8.7.7",

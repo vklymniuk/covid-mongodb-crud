@@ -15,26 +15,33 @@ export class SeedVaccinesSampleDocumentsUploader {
   ) {}
 
   async execute() {
-    console.log(1);
-    const processFile = async () => {
-      const records = [];
-      const parser = createReadStream('../data/origindata.csv', {
-        encoding: 'utf-8',
-      }).pipe(parse({ delimiter: ',', from_line: 2 }));
+    console.log(111);
 
-      for await (const row of parser) {
-        const tmpRow: CSVHeaderDto = new CSVHeaderDto(row);
-        const doc: Vaccine = new Vaccine(tmpRow);
+    try {
+      const processFile = async () => {
+        const records = [];
+        const parser = createReadStream('../data/origindata.csv', {
+          encoding: 'utf-8',
+        }).pipe(parse({ delimiter: ',', from_line: 2 }));
 
-        records.push(doc);
-      }
+        for await (const row of parser) {
+          const tmpRow: CSVHeaderDto = new CSVHeaderDto(row);
+          const doc: Vaccine = new Vaccine(tmpRow);
 
-      return records;
-    };
+          records.push(doc);
+        }
 
-    const t = await processFile();
-    console.log(t);
-    process.exit(1);
+        return records;
+      };
+
+      const t = await processFile();
+      console.log(t);
+
+      return;
+    } catch (err) {
+      console.log(222);
+    }
+
     // Algorithm
     // read row
     // map row
@@ -157,8 +164,6 @@ export class SeedVaccinesSampleDocumentsUploader {
     // //         console.log(row);
     // //         console.log('---');
     // // });
-
-    return;
   }
 
   getName(): string {

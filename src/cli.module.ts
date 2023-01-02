@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { VaccineSchema } from './schema/vaccine.schema';
 import { configs } from '../config/configuration';
@@ -18,10 +17,9 @@ import { SeedVaccinesSampleDocumentsUploader } from './services/SeedVaccinesSamp
       },
     ]),
   ],
-  controllers: [AppController],
   providers: [
-    SeedVaccinesSampleDocumentsUploader,
     SeedVaccinesSampleDocumentsCommand,
+    SeedVaccinesSampleDocumentsUploader,
   ],
 })
-export class AppModule {}
+export class CliModule {}

@@ -1,40 +1,48 @@
-import { Command, CommandRunner } from 'nest-commander';
+import { Command, CommandRunner, Option } from 'nest-commander';
 import { SeedVaccinesSampleDocumentsUploader } from '../services/SeedVaccinesSampleDocumentsUploader';
 
-interface BasicCommandOptions {
-  string?: string;
-  boolean?: boolean;
-  number?: number;
-}
-
 @Command({
-  name: 'seed-vaccines-sample-documents',
+  name: 'seed-vaccines',
   description: 'Upload required dataset inside the mongodb.',
   arguments: '',
-  options: {},
+  options: { isDefault: true },
 })
 export class SeedVaccinesSampleDocumentsCommand extends CommandRunner {
   constructor(
     private readonly vaccineService: SeedVaccinesSampleDocumentsUploader,
   ) {
-
-    console.log(222);
     super();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async run(passedParams: string[], options?: BasicCommandOptions): Promise<void>
-  {
-    try {
-        console.log('SeedVaccinesSampleDocumentsCommand executed');
-    //     await this.vaccineService.execute();
-        console.log(22);
-
-        return;
-    } catch (err) {
-        console.log(1);
-    }
-
-    return;
+  async run(
+    inputs: string[],
+    options: { type: string; rowCount: number; offset: number },
+  ): Promise<void> {
+    console.log('2222');
+    // try {
+    //   console.log('SeedVaccinesSampleDocumentsCommand executed');
+    //
+    //   // this.vaccineService.execute();
+    // } catch (err) {
+    //   console.log('SeedVaccinesSampleDocumentsCommand executed');
+    // }
   }
+
+  //
+  // @Option({ flags: '-t <sourceDataType>' })
+  // parseType(value: string) {
+  //   return value;
+  // }
+  //
+  // // @ts-ignore
+  // @Option({ flags: '', rowCount: '-rc <rowCount>' })
+  // parseRowCount(value: string) {
+  //   return Number.parseInt(value, 20);
+  // }
+  //
+  // // @ts-ignore
+  // @Option({ flags: '', offset: '-o <offset>' })
+  // parseOffset(value: number) {
+  //   return Number.parseInt(String(value), 20);
+  // }
 }

@@ -1,16 +1,8 @@
 import { CommandFactory } from 'nest-commander';
-import { AppModule } from './app.module';
+import { CliModule } from './cli.module';
 
 async function bootstrap() {
-  await CommandFactory.run(AppModule);
+  await CommandFactory.run(CliModule);
 }
 
-bootstrap()
-  .then(async (app) => {
-    console.info('command bootstrapped ...!');
-    process.exit(0);
-  })
-  .catch((err) => {
-    console.error(`server failed to start command`, err);
-    process.exit(1);
-  });
+bootstrap();
